@@ -16,7 +16,7 @@
                     ></v-combobox>
                 </v-col>
                 <v-col>
-                    <v-btn small color="primary" @click="onSave">Primary</v-btn>
+                    <v-btn small color="primary" @click="onSave">add</v-btn>
                 </v-col>
             </v-row>
             <v-row> </v-row>
@@ -50,6 +50,19 @@
                     v-model="sandBox"/>
                 </v-col>
             </v-row>
+            <v-row>
+                <v-card
+                class="mx-auto"
+                style="padding: 20px; margin-top: 20px"
+                :style="theme1">
+                    <h2 style="color: #a0a0a0">Console output :</h2>
+                <code
+                    style="height: 45rem; color: #a0a0a0; padding: 2px; overflow: auto; font-size: 12px; width: 100%"
+                    :style="theme2"
+                    color="black"
+                >{{consoleOutput}}</code>
+                </v-card>
+            </v-row>
         </v-container>
     </v-form>
 </template>
@@ -66,7 +79,8 @@ export default {
     select: '',
     consigne: '',
     test: '',
-    sandBox: ''
+    sandBox: '',
+    consoleOutput: ''
   }),
   methods: {
     onSave () {
@@ -96,6 +110,7 @@ export default {
         solution: this.sandBox
       }).then((sucess) => {
         console.log(sucess)
+        this.consoleOutput = sucess.data.stdout
       }).catch((err) => {
         console.log(err)
       })
