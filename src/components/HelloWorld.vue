@@ -32,7 +32,7 @@
             md="12"
           >
           <div class="my-2">
-            <v-btn small @click="buttonCliked" :disabled=!valid>Normal</v-btn>
+            <v-btn small @click="buttonCliked" :disabled=!valid>submit</v-btn>
           </div>
           </v-col>
         </v-row>
