@@ -41,13 +41,13 @@
 </template>
 
 <script>
-import router from '../router'
+import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   data: () => ({
     state: false,
     valid: false,
     title: '',
-    password: '',
+    password: 'duxZ1U8GMs',
     todos: [],
     titleRules: [
       v => !!v || 'title is required', /* ! => oposite !!=> oposite oposite !![anyVar] true if the var is not empty false if the var is empty */
@@ -57,26 +57,37 @@ export default {
     PasswordRules: [
       v => !!v || 'content is required'
     ],
-    email: '',
+    email: 'admin@example.com',
     emailRules: [
       v => !!v || 'E-mail is required',
       v => /.+@.+/.test(v) || 'E-mail must be valid'
     ]
   }),
+  computed: {
+    ...mapState('user', ['user']),
+    ...mapGetters('user', ['isAuthenticated'])
+  },
   methods: {
-    buttonCliked () {
+    ...mapActions('user', ['login']),
+
+    async buttonCliked () {
       if (!this.valid) {
         return
       }
       console.log('the button is cliked', this.email, this.password)
-      this.axios.post('http://localhost:3000/api/v1/login', {
+      /* this.axios.post('http://localhost:3000/api/v1/login', {
         username: this.email,
         password: this.password
       }).then(() => {
-        router.push({ name: 'Activity' })
-      }).catch(() => {
+        this.$router.push({ name: 'Activity' })
+        console.log('coucou')
+      }).catch((err) => {
+        console.log(err)
         console.log('ça marche pas')
-      })
+      }) */
+      await this.login({ email: this.email, password: this.password })
+      console.log(this.isAuthenticated)
+      this.$router.push({ name: 'ChoosePage' })
     }
   }
 }
